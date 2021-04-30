@@ -1,17 +1,8 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Spreadsheet from '../../components/Spreadsheet';
+import { titleColumns } from '../../shared/columns';
 import { fetchTitles } from '../../store/actions';
-
-const columns = [
-  { key: 'title', name: 'Title' },
-  // { key: 'authors', name: 'Authors' },
-  // { key: 'subjects', name: 'Subjects' },
-  { key: 'isbn', name: 'ISBN' },
-  { key: 'callNumber', name: 'Call Number' },
-  { key: 'cost', name: 'Cost' },
-  { key: 'imprint', name: 'Imprint' },
-];
 
 function TitlesSpreadsheet({ rows = [], fetchData = () => null }) {
   const [loadedData, setLoadedData] = useState(false);
@@ -21,10 +12,14 @@ function TitlesSpreadsheet({ rows = [], fetchData = () => null }) {
       Promise.resolve(fetchData())
         .then(() => setLoadedData(true));
     }
-  }, [rows]);
+  }, [loadedData]);
+
+  if (!loadedData) {
+    return <div className="m-auto text-xl">Loading Titles...</div>;
+  }
 
   return (
-    <Spreadsheet columns={columns} rows={rows} />
+    <Spreadsheet columns={titleColumns} rows={rows} />
   );
 }
 
