@@ -6,6 +6,7 @@ export const titleColumns = [
   { key: 'callNumber', name: 'Call Number' },
   { key: 'cost', name: 'Cost' },
   { key: 'imprint', name: 'Imprint' },
+  { key: 'accessionNumber', name: 'Accession Number' },
 ];
 
 export const valueHandlers = {

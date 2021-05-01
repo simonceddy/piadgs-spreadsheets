@@ -2,9 +2,17 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Spreadsheet from '../../components/Spreadsheet';
 import { titleColumns } from '../../shared/columns';
-import { fetchTitles } from '../../store/actions';
+import { fetchTitles, sortTitles } from '../../store/actions';
 
-function TitlesSpreadsheet({ rows = [], fetchData = () => null }) {
+function TitlesSpreadsheet({
+  rows = [],
+  fetchData = () => null,
+  sortDirection,
+  sortKey,
+  sortRows
+}) {
+  console.log(/* rows[0], */sortKey, sortDirection);
+
   const [loadedData, setLoadedData] = useState(false);
 
   useEffect(() => {
@@ -19,16 +27,26 @@ function TitlesSpreadsheet({ rows = [], fetchData = () => null }) {
   }
 
   return (
-    <Spreadsheet columns={titleColumns} rows={rows} />
+    <Spreadsheet
+      sortDirection={sortDirection}
+      sortKey={sortKey}
+      handleSort={sortRows}
+      columns={titleColumns}
+      rows={rows}
+    />
   );
 }
 
 const mapStateToProps = (state) => ({
-  rows: state.titles.spreadsheet.rows
+  rows: state.titles.spreadsheet.rows,
+  // page: state.titles.spreadsheet.page,
+  sortKey: state.titles.spreadsheet.sortKey,
+  sortDirection: state.titles.spreadsheet.sortDirection,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchData: () => dispatch(fetchTitles())
+  fetchData: () => dispatch(fetchTitles()),
+  sortRows: (key) => dispatch(sortTitles(key))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TitlesSpreadsheet);

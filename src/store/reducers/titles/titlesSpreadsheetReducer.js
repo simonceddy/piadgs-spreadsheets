@@ -1,7 +1,12 @@
 import { SET_SPREADSHEET_ROWS } from '../../actions/titles';
 
 const defaultState = {
-  rows: []
+  rows: [],
+  page: [],
+  pageNumber: 1,
+  perPage: null,
+  sortKey: 'title',
+  sortDirection: 'ASC'
 };
 
 export default function titlesSpreadsheetReducer(state = defaultState, action) {
