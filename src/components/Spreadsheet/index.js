@@ -8,7 +8,7 @@ function Spreadsheet({
   sortDirection
 }) {
   // console.log(rows);
-  const directionChar = () => (sortDirection === 'ASC' ? '▲' : '▼');
+  const directionChar = sortDirection === 'ASC' ? '▲' : '▼';
 
   return (
     <div className="p-2 overflow-scroll flex-1 w-full">
@@ -26,7 +26,7 @@ function Spreadsheet({
                 onClick={() => handleSort(key)}
                 className={`${key === sortKey ? 'underline' : ''} p-0.5`}
               >
-                {name}{key === sortKey ? directionChar() : null}
+                {name}{key === sortKey ? directionChar : null}
               </th>
             ))}
           </tr>

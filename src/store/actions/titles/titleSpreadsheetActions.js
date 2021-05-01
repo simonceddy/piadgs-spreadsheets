@@ -3,6 +3,8 @@ import { flipDirection, sortPropAZ } from '../../../util/sort';
 
 export const SET_SPREADSHEET_ROWS = 'SET_SPREADSHEET_ROWS';
 export const SET_SPREADSHEET_SORT = 'SET_SPREADSHEET_SORT';
+export const SET_PAGE_SIZE = 'SET_PAGE_SIZE';
+export const SET_PAGE_NUMBER = 'SET_PAGE_NUMBER';
 
 export const setSpreadsheetRows = (rows) => ({
   type: SET_SPREADSHEET_ROWS,
@@ -14,12 +16,14 @@ export const setSpreadsheetSort = (sortKey, sortDirection) => ({
   payload: { sortKey, sortDirection }
 });
 
-export const fetchTitles = () => (dispatch) => {
-  console.log('fetching data');
-  return axios.get('/titles/all')
-    .then((res) => dispatch(setSpreadsheetRows(res.data || [])))
-    .catch((err) => console.log(err));
-};
+export const setPageNumber = (pageNumber) => ({
+  type: SET_PAGE_NUMBER,
+  payload: { pageNumber }
+});
+
+export const fetchTitles = () => (dispatch) => axios.get('/titles/all')
+  .then((res) => dispatch(setSpreadsheetRows(res.data || [])))
+  .catch((err) => console.log(err));
 
 const handleSortKey = (key, rows) => {
   switch (key) {

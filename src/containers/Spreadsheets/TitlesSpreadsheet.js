@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import Spreadsheet from '../../components/Spreadsheet';
 import { titleColumns } from '../../shared/columns';
 import { fetchTitles, sortTitles } from '../../store/actions';
+import { paginate } from '../../util/paginate';
 
 function TitlesSpreadsheet({
   rows = [],
   fetchData = () => null,
   sortDirection,
   sortKey,
-  sortRows
+  sortRows,
+  pageNumber,
+  perPage = 32
 }) {
-  console.log(/* rows[0], */sortKey, sortDirection);
+  // console.log(sortKey, sortDirection);
+  const pages = useMemo(() => paginate(rows, perPage), [rows, perPage]);
 
   const [loadedData, setLoadedData] = useState(false);
 
@@ -32,14 +36,14 @@ function TitlesSpreadsheet({
       sortKey={sortKey}
       handleSort={sortRows}
       columns={titleColumns}
-      rows={rows}
+      rows={pages[pageNumber - 1]}
     />
   );
 }
 
 const mapStateToProps = (state) => ({
   rows: state.titles.spreadsheet.rows,
-  // page: state.titles.spreadsheet.page,
+  pageNumber: state.titles.spreadsheet.pageNumber,
   sortKey: state.titles.spreadsheet.sortKey,
   sortDirection: state.titles.spreadsheet.sortDirection,
 });
